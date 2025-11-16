@@ -2,9 +2,8 @@ name: V20 Scanner Daily Run
 
 on:
   schedule:
-    # Run every day at 7:30 PM IST (2:00 PM UTC)
-    - cron: '0 14 * * 1-5'  # Monday to Friday only
-  workflow_dispatch:  # Allow manual trigger
+    - cron: '0 14 * * 1-5'
+  workflow_dispatch:
 
 jobs:
   scan-stocks:
