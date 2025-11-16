@@ -30,37 +30,3 @@ jobs:
         EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
       run: |
         python v20_scanner.py
-    
-    - name: Upload logs (optional)
-      if: always()
-      uses: actions/upload-artifact@v3
-      with:
-        name: scan-logs
-        path: |
-          *.log
-        retention-days: 7
-```
-
-4. Click **"Commit changes"** → **"Commit changes"**
-
----
-
-### **File 4: Upload stocks.xlsx**
-
-1. Click **"Add file"** → **"Upload files"**
-2. Drag your `stocks.xlsx` file or click to browse
-3. Click **"Commit changes"**
-
----
-
-## ✅ Final Check
-
-Your repository should now have:
-```
-v20-stock-scanner/
-├── .github/
-│   └── workflows/
-│       └── v20_scanner.yml  ✅
-├── v20_scanner.py           ✅
-├── requirements.txt         ✅
-└── stocks.xlsx              ✅
