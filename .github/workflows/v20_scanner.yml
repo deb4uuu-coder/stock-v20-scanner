@@ -1,0 +1,66 @@
+name: V20 Scanner Daily Run
+
+on:
+  schedule:
+    # Run every day at 7:30 PM IST (2:00 PM UTC)
+    - cron: '0 14 * * 1-5'  # Monday to Friday only
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  scan-stocks:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pandas yfinance openpyxl pytz
+    
+    - name: Run V20 Scanner
+      env:
+        EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
+        EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+      run: |
+        python v20_scanner.py
+    
+    - name: Upload logs (optional)
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: scan-logs
+        path: |
+          *.log
+        retention-days: 7
+```
+
+4. Click **"Commit changes"** → **"Commit changes"**
+
+---
+
+### **File 4: Upload stocks.xlsx**
+
+1. Click **"Add file"** → **"Upload files"**
+2. Drag your `stocks.xlsx` file or click to browse
+3. Click **"Commit changes"**
+
+---
+
+## ✅ Final Check
+
+Your repository should now have:
+```
+v20-stock-scanner/
+├── .github/
+│   └── workflows/
+│       └── v20_scanner.yml  ✅
+├── v20_scanner.py           ✅
+├── requirements.txt         ✅
+└── stocks.xlsx              ✅
